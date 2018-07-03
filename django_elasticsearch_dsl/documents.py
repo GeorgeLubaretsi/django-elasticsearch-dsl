@@ -5,8 +5,13 @@ from django.core.paginator import Paginator
 from django.utils.six import add_metaclass, iteritems
 from elasticsearch.helpers import bulk
 from elasticsearch_dsl import DocType as DSLDocType
-from elasticsearch_dsl.document import DocTypeMeta as DSLDocTypeMeta
 from elasticsearch_dsl.field import Field
+
+# DocTypeMeta was renamed in 6.2
+try:
+    from elasticsearch_dsl.document import DocTypeMeta as DSLDocTypeMeta
+except ImportError:
+    from elasticsearch_dsl.document import DocumentMeta as DSLDocTypeMeta
 
 from .apps import DEDConfig
 from .exceptions import ModelFieldNotMappedError, RedeclaredFieldError
